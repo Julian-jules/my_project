@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/config/colors.dart';
 
 void main() {
   runApp(
@@ -14,117 +13,97 @@ void main() {
         // ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Text(
-                //   "Jumia Marketplace",
-                //   style: TextStyle(
-                //     color: Colors.blue,
-                //     fontSize: 30,
-                //     fontWeight: FontWeight.w800,
-                //   ),
-                // ),
-                Image.asset('assets/image.png', width: 200),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Enter Username",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Text(
+              //   "Jumia Marketplace",
+              //   style: TextStyle(
+              //     color: Colors.blue,
+              //     fontSize: 30,
+              //     fontWeight: FontWeight.w800,
+              //   ),
+              // ),
+              Image.asset("assets/image.png", width: 200),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Enter Username",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hint: Text("Email or Phone Number"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      prefixIcon: Icon(Icons.person),
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Enter Password",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hint: Text("PIN or Password"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      prefixIcon: Icon(Icons.lock),
-                      suffixIcon: Icon(Icons.visibility),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hint: Text("Email or Phone Number"),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
+                    prefixIcon: Icon(Icons.person),
                   ),
                 ),
-                SizedBox(height: 20),
-                // MaterialButton(
-                //   onPressed: () {},
-                //   child: Text("Login", style: TextStyle(color: Colors.white)),
-                //   color: Colors.deepOrangeAccent,
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Enter Password",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hint: Text("PIN or Password"),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    prefixIcon: Icon(Icons.lock),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              // MaterialButton(
+              //   onPressed: () {},
+              //   child: Text("Login", style: TextStyle(color: Colors.white)),
+              //   color: Colors.deepOrangeAccent,
 
-                // ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Text(
-                          "Login",
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Text("Don't have an account? "),
-                          SizedBox(width: 5),
-                          Text(
-                            "Sign Up",
-                            style: TextStyle(color: primaryColor),
-                          ),
-                          Text("Forgot Password?"),
-                          Text("Reset", style: TextStyle(color: primaryColor)),
-                        ],
-                      ),
-                    ],
+              // ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
