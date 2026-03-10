@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myproject/config/colors.dart';
 
 void main() {
   runApp(
@@ -94,7 +95,7 @@ void main() {
                   width: double.infinity,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Colors.amber,
+                    color: primaryColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -102,6 +103,48 @@ void main() {
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
+              ),
+              SizedBox(height: 20),
+
+              /// Forgot Password Section
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Forgot Password? "),
+                  GestureDetector(
+                    onTap: () {
+                      print("Reset password pressed");
+                    },
+                    child: Text(
+                      "Reset",
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+
+              /// Sign Up Section
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Don't have an account? "),
+                  GestureDetector(
+                    onTap: () {
+                      print("Sign up pressed");
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
