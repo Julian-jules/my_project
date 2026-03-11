@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text("Forgot Password? "),
                 GestureDetector(
                   onTap: () {
-                    debugPrint("Reset password pressed");
+                    Get.toNamed("/password");
                   },
                   child: Text(
                     "Reset",
