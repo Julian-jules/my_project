@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               /// App Name
               Text(
-                "Crochet Studio 🧶",
+                " Julian's Crochet Studio 🧶",
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
 
                   child: const Text(
-                    "Start Stitching",
+                    "Yarn with us",
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
