@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,141 +9,155 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final Color primaryColor = Colors.deepOrangeAccent;
+  final Color primaryColor = const Color(0xFFB76E79); // crochet pink
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.deepOrangeAccent,
-      //   title: Text("Logging Page", style: TextStyle(color: Colors.white)),
-      //   centerTitle: true,
-      // ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Text(
-            //   "Jumia Marketplace",
-            //   style: TextStyle(
-            //     color: Colors.blue,
-            //     fontSize: 30,
-            //     fontWeight: FontWeight.w800,
-            //   ),
-            // ),
-            Image.asset("assets/image.png", width: 200),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Enter Username",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                  ),
-                ],
+      backgroundColor: const Color.fromARGB(255, 254, 238, 244),
+
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 80),
+
+              /// Crochet Logo
+              Image.asset("assets/crotchet_logo.jpg", width: 140),
+
+              const SizedBox(height: 10),
+
+              /// App Name
+              Text(
+                "Crochet Studio 🧶",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: TextField(
+
+              const SizedBox(height: 5),
+
+              /// Tagline
+              const Text(
+                "Create and share beautiful crochet designs",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              ),
+
+              const SizedBox(height: 40),
+
+              /// Username Label
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Email",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              /// Email Field
+              TextField(
                 decoration: InputDecoration(
-                  hint: Text("Email or Phone Number"),
+                  hintText: "Enter your email",
+                  prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  prefixIcon: Icon(Icons.person),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(25, 0, 20, 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Enter Password",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                  ),
-                ],
+
+              const SizedBox(height: 20),
+
+              /// Password Label
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Password",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: TextField(
+
+              const SizedBox(height: 5),
+
+              /// Password Field
+              TextField(
+                obscureText: true,
                 decoration: InputDecoration(
-                  hint: Text("PIN or Password"),
+                  hintText: "Enter your password",
+                  prefixIcon: const Icon(Icons.lock_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  prefixIcon: Icon(Icons.lock),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            // MaterialButton(
-            //   onPressed: () {},
-            //   child: Text("Login", style: TextStyle(color: Colors.white)),
-            //   color: Colors.deepOrangeAccent,
 
-            // ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: GestureDetector(
-                onTap: () {
-                  Get.offNamed("/homescreen");
-                },
-                child: Container(
-                  height: 50,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
+              const SizedBox(height: 25),
 
-            /// Forgot Password Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Forgot Password? "),
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed("/password");
-                  },
-                  child: Text(
-                    "Reset",
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
+              /// Login Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
 
-            /// Sign Up Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Don't have an account? "),
-                GestureDetector(
-                  onTap: () {
-                    debugPrint("Sign up pressed");
+                  onPressed: () {
+                    Get.offNamed("/homescreen");
                   },
-                  child: GestureDetector(
+
+                  child: const Text(
+                    "Start Stitching",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              /// Forgot Password
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Forgot Password? "),
+
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed("/password");
+                    },
+                    child: Text(
+                      "Reset",
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              /// Sign Up
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have an account? "),
+
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed("/signup");
+                    },
+
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
@@ -152,14 +165,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onTap: () {
-                      Get.toNamed("/signup");
-                    },
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+
+              const SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );

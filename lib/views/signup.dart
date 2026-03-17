@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myproject/config/colors.dart';
 
-const Color primaryColor = Colors.deepOrangeAccent;
+const Color primaryColor = Color(0xFFB76E79); // crochet pink
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -15,77 +15,85 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 254, 238, 244),
+
       body: Padding(
         padding: const EdgeInsets.all(20),
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
+            /// Crochet Logo
+            Image.asset("assets/crotchet_logo.jpg", width: 80),
+
+            const SizedBox(height: 10),
+
             /// Title
             Text(
               "Create Account",
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
-                color: primaryColor,
+                color: secondaryColor,
               ),
             ),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             /// Full Name
             TextField(
               decoration: InputDecoration(
                 hintText: "Full Name",
-                prefixIcon: Icon(Icons.person),
+                prefixIcon: const Icon(Icons.person),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             /// Email
             TextField(
               decoration: InputDecoration(
                 hintText: "Email or Phone Number",
-                prefixIcon: Icon(Icons.email),
+                prefixIcon: const Icon(Icons.email),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             /// Password
             TextField(
               obscureText: true,
               decoration: InputDecoration(
                 hintText: "Password",
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             /// Confirm Password
             TextField(
               obscureText: true,
               decoration: InputDecoration(
                 hintText: "Confirm Password",
-                prefixIcon: Icon(Icons.lock_outline),
+                prefixIcon: const Icon(Icons.lock_outline),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
             ),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             /// Sign Up Button
             Container(
@@ -93,22 +101,22 @@ class _SignUpState extends State<SignUp> {
               width: double.infinity,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: primaryColor,
+                color: secondaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Text(
+              child: const Text(
                 "Sign Up",
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             /// Login text
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Already have an account? "),
+                const Text("Already have an account? "),
                 GestureDetector(
                   onTap: () {
                     Get.offNamed("/login");
@@ -116,7 +124,7 @@ class _SignUpState extends State<SignUp> {
                   child: Text(
                     "Login",
                     style: TextStyle(
-                      color: primaryColor,
+                      color: secondaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

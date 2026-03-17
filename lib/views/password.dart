@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myproject/views/signup.dart';
+import 'package:myproject/config/colors.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -17,29 +17,44 @@ class ResetPasswordScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(20),
+
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+
           children: [
+            const SizedBox(height: 30),
+
+            /// Crochet Logo
+            Image.asset("assets/crotchet_logo.jpg", width: 140),
+
+            const SizedBox(height: 20),
+
             const Text(
               "Enter your email to reset your password",
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              textAlign: TextAlign.center,
+              style: TextStyle(color: primaryColor, fontSize: 18),
             ),
 
             const SizedBox(height: 20),
 
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+
               child: TextField(
                 controller: emailController,
+
                 decoration: const InputDecoration(
                   labelText: "Email",
+
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
-                    color: Colors.grey,
+                    color: Color.fromARGB(255, 176, 91, 91),
                   ),
+
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -49,11 +64,13 @@ class ResetPasswordScreen extends StatelessWidget {
 
             SizedBox(
               width: double.infinity,
+
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  foregroundColor: Colors.white,
+                  backgroundColor: secondaryColor,
+                  foregroundColor: const Color.fromARGB(255, 107, 26, 26),
                 ),
+
                 onPressed: () {
                   String email = emailController.text;
 
@@ -66,6 +83,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     );
                   }
                 },
+
                 child: const Text("Send Reset Link"),
               ),
             ),

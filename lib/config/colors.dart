@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
 
-const primaryColor = Color(0xFFF49719);
-const secondaryColor = Color.fromARGB(255, 5, 243, 128);
+const primaryColor = Color(0xFFF50057); // crochet pink
+const secondaryColor = Color(0xFFB76E79);
+const accentColor = Color(0xFFF8BBD0);
