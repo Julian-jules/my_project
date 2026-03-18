@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myproject/controllers/logincontroller.dart';
+
+Logincontroller logincontroller = Get.put(Logincontroller());
+TextEditingController usernameController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -54,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Email",
+                  "Username or Email",
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
@@ -63,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               /// Email Field
               TextField(
+                controller: usernameController,
                 decoration: InputDecoration(
                   hintText: "Enter your email",
                   prefixIcon: const Icon(Icons.email_outlined),
@@ -87,10 +93,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
               /// Password Field
               TextField(
-                obscureText: true,
+                controller: passwordController,
+                obscureText: !logincontroller.isPasswordVisible.value,
                 decoration: InputDecoration(
                   hintText: "Enter your password",
-                  prefixIcon: const Icon(Icons.lock_outline),
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      logincontroller.isPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {s
+                      setState(() {
+                        logincontroller.togglePasswordVisibility();
+                      });
+                    },
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -112,7 +131,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   onPressed: () {
-                    Get.offNamed("/homescreen");
+                    bool success = logincontroller.login(
+                      usernameController.text,
+                      passwordController.text,
+                    );
+                    if (success) {
+                      Get.offNamed("/homescreen");
+                    } else {
+                      Get.snackbar("Login Failed", "Invalid email or password");
+                    }
                   },
 
                   child: const Text(
