@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ? Icons.visibility
                           : Icons.visibility_off,
                     ),
-                    onPressed: () {s
+                    onPressed: () {
                       setState(() {
                         logincontroller.togglePasswordVisibility();
                       });

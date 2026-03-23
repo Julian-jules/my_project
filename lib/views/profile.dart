@@ -97,7 +97,9 @@ class ProfileScreen extends StatelessWidget {
                       backgroundColor: Colors.redAccent,
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offAll(() => const LoginScreen());
+                    },
                     child: const Text("Log Out"),
                   ),
                 ),

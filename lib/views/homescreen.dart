@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:myproject/config/colors.dart';
+import 'package:myproject/controllers/homescreencontroller.dart';
 import 'package:myproject/views/browse.dart';
 import 'package:myproject/views/favorites.dart';
 import 'package:myproject/views/profile.dart';
@@ -13,20 +15,13 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  List<Map<String, String>> items = [
-    {"name": "Crochet Bags", "image": "assets/download.jpg"},
-    {"name": "Amigurumi Toys", "image": "assets/doll.jpg"},
-    {"name": "Crochet Hats", "image": "assets/hats.jpg"},
-    {"name": "Crochet Yarns", "image": "assets/background_crochet.jpg"},
-    {"name": "Crochet Shrugs", "image": "assets/shrug.jpg"},
-    {"name": "Crochet Accessories", "image": "assets/belt.jpg"},
-  ];
+  final HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(" Julian's Crochet Studio 🧶"),
+        title: const Text("Julian's Crochet Studio 🧶"),
         backgroundColor: primaryColor,
       ),
 
@@ -49,64 +44,65 @@ class _HomescreenState extends State<Homescreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Yarn text
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                   child: Text(
                     "WHAT WE OFFER 💖",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 248, 246, 246),
+                      color: Colors.white,
                     ),
                   ),
                 ),
 
-                // Grid of crochet items
+                // Grid
                 Expanded(
-                  child: GridView.builder(
-                    itemCount: items.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                        ),
-                    itemBuilder: (context, index) {
-                      final item = items[index];
+                  child: Obx(
+                    () => GridView.builder(
+                      itemCount: controller.items.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                          ),
+                      itemBuilder: (context, index) {
+                        final item = controller.items[index];
 
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(15),
-                                ),
-                                child: Image.asset(
-                                  item["image"]!,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                item["name"]!,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(15),
+                                  ),
+                                  child: Image.asset(
+                                    item["image"]!,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  item["name"]!,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -126,32 +122,18 @@ class _HomescreenState extends State<Homescreen> {
           Icon(Icons.person, color: Colors.white),
         ],
         onTap: (index) {
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Homescreen()),
-            );
-          }
+          if (index == 0) return;
 
           if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const BrowseScreen()),
-            );
+            Get.off(() => const BrowseScreen());
           }
 
           if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FavoritesScreen()),
-            );
+            Get.off(() => const FavoritesScreen());
           }
 
           if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileScreen()),
-            );
+            Get.off(() => const ProfileScreen());
           }
         },
       ),
