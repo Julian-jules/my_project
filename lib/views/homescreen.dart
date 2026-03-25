@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myproject/config/colors.dart';
 import 'package:myproject/controllers/homescreencontroller.dart';
+import 'package:myproject/controllers/favoritecontroller.dart';
 import 'package:myproject/views/browse.dart';
 import 'package:myproject/views/favorites.dart';
 import 'package:myproject/views/profile.dart';
@@ -16,6 +17,7 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen> {
   final HomeController controller = Get.put(HomeController());
+  final FavoritesController favController = Get.put(FavoritesController());
 
   @override
   Widget build(BuildContext context) {
@@ -75,28 +77,54 @@ class _HomescreenState extends State<Homescreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: Column(
+                          child: Stack(
                             children: [
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(15),
+                              Column(
+                                children: [
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(15),
+                                      ),
+                                      child: Image.asset(
+                                        item["image"]!,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                      ),
+                                    ),
                                   ),
-                                  child: Image.asset(
-                                    item["image"]!,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Text(
+                                      item["name"]!,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  item["name"]!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+
+                              // ❤️ Favorite Button
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: Obx(() {
+                                  final isFav = favController.isFavorite(item);
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      favController.toggleFavorite(item);
+                                    },
+                                    child: Icon(
+                                      isFav
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: Colors.red,
+                                      size: 28,
+                                    ),
+                                  );
+                                }),
                               ),
                             ],
                           ),

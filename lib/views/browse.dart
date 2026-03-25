@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:myproject/config/colors.dart';
+import 'package:myproject/controllers/browsecontroller.dart';
 
 class BrowseScreen extends StatelessWidget {
   const BrowseScreen({super.key});
 
-  static const categories = [
-    "Hats",
-    "Bags",
-    "Amigurumi",
-    "Yarn",
-    "Sweaters",
-    "Baby Items",
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(BrowseController());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Browse Categories 🧶"),
         backgroundColor: primaryColor,
       ),
+
       body: Stack(
         children: [
           // Background Image
@@ -34,35 +30,37 @@ class BrowseScreen extends StatelessWidget {
             ),
           ),
 
-          // Semi-transparent overlay for readability
+          // Overlay
           Container(color: Colors.black.withAlpha(77)),
 
-          // Category list
-          ListView.builder(
-            padding: const EdgeInsets.all(12),
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              return Card(
-                color: Colors.white.withAlpha(220),
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.category,
-                    color: Colors.deepOrangeAccent,
+          // Category list (NOW USING CONTROLLER)
+          Obx(
+            () => ListView.builder(
+              padding: const EdgeInsets.all(12),
+              itemCount: controller.categories.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Colors.white.withAlpha(220),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  title: Text(
-                    categories[index],
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.category,
+                      color: Colors.deepOrangeAccent,
+                    ),
+                    title: Text(
+                      controller.categories[index],
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      // Future: open category
+                    },
                   ),
-                  onTap: () {
-                    // TODO: Open category page or filter items
-                  },
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ],
       ),

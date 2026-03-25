@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:myproject/config/colors.dart';
 import 'package:get/get.dart';
-import 'package:myproject/views/login.dart';
+import 'package:myproject/controllers/profilecontroller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProfileController());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile 👤"),
@@ -33,11 +35,9 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 30),
 
                 // Profile Picture
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 60,
-                  backgroundImage: AssetImage(
-                    "assets/crotchet_logo.jpg",
-                  ), // replace with user profile pic
+                  backgroundImage: AssetImage("assets/crotchet_logo.jpg"),
                 ),
                 const SizedBox(height: 15),
 
@@ -66,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Stats (Optional)
+                // Stats
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -77,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
 
-                // Buttons
+                // Edit Profile Button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: ElevatedButton(
@@ -89,7 +89,10 @@ class ProfileScreen extends StatelessWidget {
                     child: const Text("Edit Profile"),
                   ),
                 ),
+
                 const SizedBox(height: 15),
+
+                // Logout Button ✅ (CONNECTED TO CONTROLLER)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: ElevatedButton(
@@ -98,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                       minimumSize: const Size.fromHeight(50),
                     ),
                     onPressed: () {
-                      Get.offAll(() => const LoginScreen());
+                      controller.logout();
                     },
                     child: const Text("Log Out"),
                   ),
