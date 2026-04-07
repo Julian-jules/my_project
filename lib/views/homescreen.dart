@@ -107,27 +107,26 @@ class _HomescreenState extends State<Homescreen> {
                                 children: [
                                   Column(
                                     children: [
-                                      /// 🖼 Image
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              const BorderRadius.vertical(
-                                            top: Radius.circular(15),
-                                          ),
-                                          child: Image.asset(
-                                            item["image"] ?? "",
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return const Icon(
-                                                Icons.image_not_supported,
-                                                size: 50,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
+/// 🖼 Image
+Expanded(
+  child: ClipRRect(
+    borderRadius:
+        const BorderRadius.vertical(
+      top: Radius.circular(15),
+    ),
+    child: Image.network(
+      "http://10.0.2.2/myproject/${item["image"]}",
+      fit: BoxFit.cover,
+      width: double.infinity,
+      errorBuilder: (context, error, stackTrace) {
+        return const Icon(
+          Icons.image_not_supported,
+          size: 50,
+        );
+      },
+    ),
+  ),
+),
 
                                       /// 🏷 Name
                                       Padding(

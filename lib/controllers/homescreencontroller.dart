@@ -1,12 +1,37 @@
 import 'package:get/get.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
-  var items = [
-    {"name": "Crochet Bags", "image": "assets/download.jpg"},
-    {"name": "Amigurumi Toys", "image": "assets/doll.jpg"},
-    {"name": "Crochet Hats", "image": "assets/hats.jpg"},
-    {"name": "Crochet Yarns", "image": "assets/background_crochet.jpg"},
-    {"name": "Crochet Shrugs", "image": "assets/shrug.jpg"},
-    {"name": "Crochet Accessories", "image": "assets/belt.jpg"},
-  ].obs;
+  var items = [].obs;
+  var isLoading = false.obs;
+
+  @override
+  void onInit() {
+    fetchProducts();
+    super.onInit();
+  }
+
+  void fetchProducts() async {
+    try {
+      isLoading(true);
+
+      var response = await http.get(
+        Uri.parse("http://10.0.2.2/myproject/get_products.php"),
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        if (data["status"] == "success") {
+          items.value = List<Map<String, dynamic>>.from(data["data"]);
+        }
+      }
+    } catch (e) {
+      print("Error: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
 }
+
