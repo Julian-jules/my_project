@@ -1,20 +1,41 @@
-import 'package:get/state_manager.dart';
+import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class Logincontroller extends GetxController {
-  var username = '';
-  var password = '';
+
   var isPasswordVisible = false.obs;
-  login(user, pass) {
-    username = user;
-    password = pass;
-    if (username == "admin" && password == "12345") {
-      return true;
-    } else {
-      return false;
-    }
+  var isLoading = false.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
   }
 
-  togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
+  Future<bool> login(String email, String password) async {
+    isLoading.value = true;
+    try {
+      final response = await http.post(
+        Uri.parse("http://localhost/my_project/login.php"),
+        body: {
+          "email": email,
+          "password": password,
+        },
+      );
+
+      final data = json.decode(response.body);
+
+      if (data["status"] == "success") {
+        isLoading.value = false;
+        return true;
+      } else {
+        isLoading.value = false;
+        return false;
+      }
+
+    } catch (e) {
+      print("Login error: $e");
+      isLoading.value = false;
+      return false;
+    }
   }
 }

@@ -41,7 +41,7 @@ class _HomescreenState extends State<Homescreen> {
           ),
 
           /// Dark overlay
-          Container(color: Colors.black.withAlpha(80)),
+          Container(color: Colors.black.withOpacity(0.5)),
 
           /// Content
           Padding(
@@ -63,114 +63,110 @@ class _HomescreenState extends State<Homescreen> {
 
                 /// 🧶 Products Grid
                 Expanded(
-                  child: Obx(
-                    () {
-                      if (controller.items.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            "No products available",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        );
-                      }
+                  child: Obx(() {
+                    if (controller.items.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
 
-                      return GridView.builder(
-                        itemCount: controller.items.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                        ),
-                        itemBuilder: (context, index) {
-                          final item = controller.items[index];
+                    return GridView.builder(
+                      itemCount: controller.items.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                      ),
+                      itemBuilder: (context, index) {
+                        final item = controller.items[index];
 
-                          return GestureDetector(
-                            onTap: () {
-                              /// 🔥 Navigate to Detail Page
-                              Get.to(() => DetailPage(
-                                    name: item["name"] ?? "No name",
-                                    price: item["price"] ?? "0",
-                                    description:
-                                        item["description"] ?? "No description",
-                                    image: item["image"] ?? "",
-                                  ));
-                            },
+                        return GestureDetector(
+                          onTap: () {
+                            /// 🔥 Navigate to Detail Page
+                            Get.to(() => DetailPage(
+                                  name: item["name"] ?? "No name",
+                                  price: item["price"] ?? "0",
+                                  description:
+                                      item["description"] ?? "No description",
+                                  image: item["image"] ?? "",
+                                ));
+                          },
 
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
 
-                              child: Stack(
-                                children: [
-                                  Column(
-                                    children: [
-/// 🖼 Image
-Expanded(
-  child: ClipRRect(
-    borderRadius:
-        const BorderRadius.vertical(
-      top: Radius.circular(15),
-    ),
-    child: Image.network(
-      "http://10.0.2.2/myproject/${item["image"]}",
-      fit: BoxFit.cover,
-      width: double.infinity,
-      errorBuilder: (context, error, stackTrace) {
-        return const Icon(
-          Icons.image_not_supported,
-          size: 50,
-        );
-      },
-    ),
-  ),
-),
-
-                                      /// 🏷 Name
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Text(
-                                          item["name"] ?? "No name",
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                            child: Stack(
+                              children: [
+                                Column(
+                                  children: [
+                                    /// 🖼 Image
+                                    Expanded(
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                          top: Radius.circular(15),
+                                        ),
+                                        child: Image.network(
+                                          "http://localhost/my_project/${item["image"]}",
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return const Icon(
+                                              Icons.image_not_supported,
+                                              size: 50,
+                                            );
+                                          },
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
 
-                                  /// ❤️ Favorite Button
-                                  Positioned(
-                                    top: 8,
-                                    right: 8,
-                                    child: Obx(() {
-                                      final isFav =
-                                          favController.isFavorite(item);
-
-                                      return GestureDetector(
-                                        onTap: () {
-                                          favController.toggleFavorite(item);
-                                        },
-                                        child: Icon(
-                                          isFav
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: Colors.red,
-                                          size: 28,
+                                    /// 🏷 Name
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Text(
+                                        item["name"] ?? "No name",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      );
-                                    }),
-                                  ),
-                                ],
-                              ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                /// ❤️ Favorite Button
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: Obx(() {
+                                    final isFav =
+                                        favController.isFavorite(item);
+
+                                    return GestureDetector(
+                                      onTap: () {
+                                        favController.toggleFavorite(item);
+                                      },
+                                      child: Icon(
+                                        isFav
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: Colors.red,
+                                        size: 28,
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ],
             ),

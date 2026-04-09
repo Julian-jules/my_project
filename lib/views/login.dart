@@ -130,8 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
-                  onPressed: () {
-                    bool success = logincontroller.login(
+                  onPressed: () async {
+                    bool success = await logincontroller.login(
                       usernameController.text,
                       passwordController.text,
                     );

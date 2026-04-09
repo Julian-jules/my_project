@@ -17,7 +17,7 @@ class HomeController extends GetxController {
       isLoading(true);
 
       var response = await http.get(
-        Uri.parse("http://10.0.2.2/myproject/get_products.php"),
+        Uri.parse("http://localhost/my_project/get_products.php"),
       );
 
       if (response.statusCode == 200) {
