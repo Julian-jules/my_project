@@ -1,41 +1,45 @@
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
-class Logincontroller extends GetxController {
-
-  var isPasswordVisible = false.obs;
-  var isLoading = false.obs;
+class LoginController extends GetxController {
+  final isLoading = false.obs;
+  final isPasswordVisible = false.obs;
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
   Future<bool> login(String email, String password) async {
-    isLoading.value = true;
+    var url = Uri.parse("http://localhost/my_project/login.php");
+
     try {
-      final response = await http.post(
-        Uri.parse("http://localhost/my_project/login.php"),
-        body: {
-          "email": email,
-          "password": password,
-        },
-      );
+      isLoading.value = true;
 
-      final data = json.decode(response.body);
+    var response = await http.post(url, body: {
+      "email": email,
+      "password": password,
+    });
 
-      if (data["status"] == "success") {
-        isLoading.value = false;
+    print("Response: ${response.body}");
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+
+      if (data['status'] == 'success') {
         return true;
       } else {
-        isLoading.value = false;
         return false;
       }
-
-    } catch (e) {
-      print("Login error: $e");
-      isLoading.value = false;
+    } else {
+      print("Server error: ${response.statusCode}");
       return false;
     }
+  } catch (e) {
+    print("Error connecting to server: $e");
+    return false;
+  } finally {
+    isLoading.value = false;
+  }
   }
 }

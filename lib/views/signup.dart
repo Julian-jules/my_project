@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:myproject/config/colors.dart';
 
@@ -22,25 +23,40 @@ class _SignUpState extends State<SignUp> {
   bool isLoading = false;
 
   Future<void> registerUser() async {
-    if (passwordController.text != confirmController.text) {
-      Get.snackbar("Error", "Passwords do not match");
-      return;
-    }
+  // ✅ VALIDATION
+  if (nameController.text.isEmpty ||
+      emailController.text.isEmpty ||
+      passwordController.text.isEmpty ||
+      confirmController.text.isEmpty) {
+    Get.snackbar("Error", "All fields are required");
+    return;
+  }
 
-    setState(() => isLoading = true);
+  if (passwordController.text != confirmController.text) {
+    Get.snackbar("Error", "Passwords do not match");
+    return;
+  }
 
-    try {
-      final response = await http.post(
-        Uri.parse("http://10.0.2.2/my_project/signup.php"),
-        body: {
-          "username": nameController.text,
-          "email": emailController.text,
-          "password": passwordController.text,
-        },
-      );
+  setState(() => isLoading = true);
 
-      if (response.statusCode == 200) {
-        Get.snackbar("Success", "Account created successfully 🎉");
+  try {
+    final response = await http.post(
+      // 🔥 FIXED: use emulator IP instead of localhost
+      Uri.parse("http://localhost/my_project/signup.php"),
+      body: {
+        "username": nameController.text.trim(),
+        "email": emailController.text.trim(),
+        "password": passwordController.text.trim(),
+      },
+    );
+
+    print("Response: ${response.body}");
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      if (data['status'] == 'success') {
+        Get.snackbar("Success", data['message']);
 
         // clear fields
         nameController.clear();
@@ -48,17 +64,21 @@ class _SignUpState extends State<SignUp> {
         passwordController.clear();
         confirmController.clear();
 
-        // ✅ GO BACK TO LOGIN PAGE
+        // go to login
         Get.offAllNamed("/login");
       } else {
-        Get.snackbar("Error", "Server error");
+        Get.snackbar("Error", data['message']);
       }
-    } catch (e) {
-      Get.snackbar("Error", "Cannot connect to server");
+    } else {
+      Get.snackbar("Error", "Server error: ${response.statusCode}");
     }
-
-    setState(() => isLoading = false);
+  } catch (e) {
+    print("Error: $e");
+    Get.snackbar("Error", "Cannot connect to server");
   }
+
+  setState(() => isLoading = false);
+}
 
   @override
   Widget build(BuildContext context) {

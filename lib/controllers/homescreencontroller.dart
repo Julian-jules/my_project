@@ -16,8 +16,11 @@ class HomeController extends GetxController {
     try {
       isLoading(true);
 
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse("http://localhost/my_project/get_products.php"),
+        body: {
+          "action": "get_products"
+        }
       );
 
       if (response.statusCode == 200) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myproject/controllers/logincontroller.dart';
 
-Logincontroller logincontroller = Get.put(Logincontroller());
+LoginController logincontroller = Get.put(LoginController());
 TextEditingController usernameController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 
@@ -105,9 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Icons.visibility_off,
                     ),
                     onPressed: () {
-                      setState(() {
-                        logincontroller.togglePasswordVisibility();
-                      });
+                      logincontroller.togglePasswordVisibility();
+                      setState(() {});
                     },
                   ),
                   border: OutlineInputBorder(
@@ -131,16 +130,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   onPressed: () async {
-                    bool success = await logincontroller.login(
-                      usernameController.text,
-                      passwordController.text,
-                    );
-                    if (success) {
-                      Get.offNamed("/homescreen");
-                    } else {
-                      Get.snackbar("Login Failed", "Invalid email or password");
-                    }
-                  },
+  bool success = await logincontroller.login(
+    usernameController.text,
+    passwordController.text,
+  );
+
+  if (success) {
+    Get.offNamed("/homescreen");
+  } else {
+    Get.snackbar("Login Failed", "Invalid email or password");
+  }
+},
 
                   child: const Text(
                     "Yarn with us",
