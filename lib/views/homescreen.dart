@@ -30,7 +30,7 @@ class _HomescreenState extends State<Homescreen> {
 
       body: Stack(
         children: [
-          /// 🌸 Background
+          /// 🌸 Background WITH overlay (FIXED)
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -38,12 +38,12 @@ class _HomescreenState extends State<Homescreen> {
                 fit: BoxFit.cover,
               ),
             ),
+            child: Container(
+              color: Colors.black.withOpacity(0.5), // overlay ONLY here
+            ),
           ),
 
-          /// Dark overlay
-          Container(color: Colors.black.withOpacity(0.5)),
-
-          /// Content
+          /// 🌟 Main Content
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -64,9 +64,16 @@ class _HomescreenState extends State<Homescreen> {
                 /// 🧶 Products Grid
                 Expanded(
                   child: Obx(() {
+                    if (controller.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
                     if (controller.items.isEmpty) {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: Text(
+                          "No products found",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       );
                     }
 
@@ -81,9 +88,12 @@ class _HomescreenState extends State<Homescreen> {
                       itemBuilder: (context, index) {
                         final item = controller.items[index];
 
+                        final imageUrl =
+                            "http://localhost/my_project/${item["image"]}";
+                        print("IMAGE URL: $imageUrl");
+
                         return GestureDetector(
                           onTap: () {
-                            /// 🔥 Navigate to Detail Page
                             Get.to(() => DetailPage(
                                   name: item["name"] ?? "No name",
                                   price: item["price"] ?? "0",
@@ -92,18 +102,15 @@ class _HomescreenState extends State<Homescreen> {
                                   image: item["image"] ?? "",
                                 ));
                           },
-
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15),
                             ),
-
                             child: Stack(
                               children: [
                                 Column(
                                   children: [
-                                    /// 🖼 Image
                                     Expanded(
                                       child: ClipRRect(
                                         borderRadius:
@@ -111,21 +118,22 @@ class _HomescreenState extends State<Homescreen> {
                                           top: Radius.circular(15),
                                         ),
                                         child: Image.network(
-                                          "http://localhost/my_project/${item["image"]}",
+                                          imageUrl,
                                           fit: BoxFit.cover,
                                           width: double.infinity,
                                           errorBuilder:
                                               (context, error, stackTrace) {
-                                            return const Icon(
-                                              Icons.image_not_supported,
-                                              size: 50,
+                                            return const Center(
+                                              child: Icon(
+                                                Icons.image_not_supported,
+                                                size: 50,
+                                              ),
                                             );
                                           },
                                         ),
                                       ),
                                     ),
 
-                                    /// 🏷 Name
                                     Padding(
                                       padding: const EdgeInsets.all(8),
                                       child: Text(
@@ -145,11 +153,9 @@ class _HomescreenState extends State<Homescreen> {
                                   child: Obx(() {
                                     final isFav =
                                         favController.isFavorite(item);
-
                                     return GestureDetector(
-                                      onTap: () {
-                                        favController.toggleFavorite(item);
-                                      },
+                                      onTap: () =>
+                                          favController.toggleFavorite(item),
                                       child: Icon(
                                         isFav
                                             ? Icons.favorite

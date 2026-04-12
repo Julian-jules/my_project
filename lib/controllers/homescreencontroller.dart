@@ -1,5 +1,5 @@
-import 'package:get/get.dart';
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
@@ -8,33 +8,29 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    fetchProducts();
     super.onInit();
+    fetchProducts();
   }
 
-  void fetchProducts() async {
+  Future<void> fetchProducts() async {
     try {
       isLoading(true);
 
-      var response = await http.post(
+      var response = await http.get(
         Uri.parse("http://localhost/my_project/get_products.php"),
-        body: {
-          "action": "get_products"
-        }
       );
 
       if (response.statusCode == 200) {
-        var data = json.decode(response.body);
+        var data = jsonDecode(response.body);
 
         if (data["status"] == "success") {
           items.value = List<Map<String, dynamic>>.from(data["data"]);
         }
       }
     } catch (e) {
-      print("Error: $e");
+      print("Fetch error: $e");
     } finally {
       isLoading(false);
     }
   }
 }
-
