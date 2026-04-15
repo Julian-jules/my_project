@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myproject/config/colors.dart';
 import 'package:myproject/controllers/cartcontroller.dart';
+<<<<<<< HEAD
+=======
+import 'package:myproject/views/checkout.dart';
+>>>>>>> 712484ed32672a043bb459c69f0e925021dbc33d
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -208,6 +212,7 @@ class CartScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
+<<<<<<< HEAD
                           onPressed: () {
                             Get.snackbar(
                               "Order Placed! 🎉",
@@ -217,6 +222,10 @@ class CartScreen extends StatelessWidget {
                             controller.cartItems.clear();
                             controller.saveCart();
                           },
+=======
+                          // Replace the onPressed of the Checkout button in cart.dart with:
+onPressed: () => Get.to(() => const CheckoutScreen()),
+>>>>>>> 712484ed32672a043bb459c69f0e925021dbc33d
                           child: const Text(
                             "Checkout",
                             style:
