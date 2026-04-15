@@ -4,9 +4,10 @@ class BrowseController extends GetxController {
   var categories = [
     "Hats",
     "Bags",
-    "Amigurumi",
+    "Shrugs",
     "Yarn",
     "Sweaters",
-    "Baby Items",
+    "Bikinis",
+    "Randoms"
   ].obs;
 }

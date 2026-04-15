@@ -1,23 +1,27 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myproject/config/colors.dart';
+import 'package:myproject/controllers/categorycontroller.dart';
 import 'package:myproject/controllers/favoritecontroller.dart';
-import 'package:myproject/views/browse.dart';
-import 'package:myproject/views/profile.dart';
-import 'package:myproject/views/homescreen.dart';
 import 'package:myproject/views/details.dart';
 
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
+class CategoryProductsScreen extends StatelessWidget {
+  final String category;
+  const CategoryProductsScreen({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(FavoritesController());
+    final controller = Get.put(CategoryController());
+    final favController = Get.find<FavoritesController>();
+
+    // Fetch products when screen loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchProductsByCategory(category);
+    });
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Favorites ❤️"),
+        title: Text("$category 🧶"),
         backgroundColor: primaryColor,
       ),
 
@@ -34,36 +38,41 @@ class FavoritesScreen extends StatelessWidget {
           ),
           Container(color: Colors.black.withAlpha(77)),
 
-          // Favorites Content
+          // Products
           Obx(() {
-            if (controller.favorites.isEmpty) {
-              return const Center(
+            if (controller.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (controller.products.isEmpty) {
+              return Center(
                 child: Text(
-                  "No favorites yet 💔",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  "No $category products yet 😔",
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
                 ),
               );
             }
 
             return GridView.builder(
               padding: const EdgeInsets.all(12),
-              itemCount: controller.favorites.length,
+              itemCount: controller.products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
               itemBuilder: (context, index) {
-                final item = controller.favorites[index];
-                final imageUrl = "http://localhost/my_project/${item["image"]}";
+                final item = controller.products[index];
+                final imageUrl =
+                    "http://localhost/my_project/${item["image"]}";
 
                 return GestureDetector(
-                  // ✅ navigate to DetailPage on tap
                   onTap: () {
                     Get.to(() => DetailPage(
                           name: item["name"] ?? "No name",
                           price: item["price"] ?? "0",
-                          description: item["description"] ?? "No description",
+                          description:
+                              item["description"] ?? "No description",
                           image: item["image"] ?? "",
                         ));
                   },
@@ -81,12 +90,12 @@ class FavoritesScreen extends StatelessWidget {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(15),
                                 ),
-                                // ✅ Image.network instead of Image.asset
                                 child: Image.network(
                                   imageUrl,
                                   fit: BoxFit.cover,
                                   width: double.infinity,
-                                  errorBuilder: (context, error, stackTrace) {
+                                  errorBuilder:
+                                      (context, error, stackTrace) {
                                     return const Center(
                                       child: Icon(
                                         Icons.image_not_supported,
@@ -100,7 +109,7 @@ class FavoritesScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                item["name"]!,
+                                item["name"] ?? "No name",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -109,18 +118,24 @@ class FavoritesScreen extends StatelessWidget {
                           ],
                         ),
 
-                        // ❤️ Remove button
+                        // ❤️ Favorite Button
                         Positioned(
                           top: 8,
                           right: 8,
-                          child: GestureDetector(
-                            onTap: () => controller.toggleFavorite(item),
-                            child: const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                              size: 28,
-                            ),
-                          ),
+                          child: Obx(() {
+                            final isFav = favController.isFavorite(item);
+                            return GestureDetector(
+                              onTap: () =>
+                                  favController.toggleFavorite(item),
+                              child: Icon(
+                                isFav
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: Colors.red,
+                                size: 28,
+                              ),
+                            );
+                          }),
                         ),
                       ],
                     ),
@@ -130,27 +145,6 @@ class FavoritesScreen extends StatelessWidget {
             );
           }),
         ],
-      ),
-
-      // ✅ Bottom Navigation
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        color: primaryColor,
-        buttonBackgroundColor: secondaryColor,
-        height: 50,
-        index: 2,
-        items: const [
-          Icon(Icons.home, color: Colors.white, size: 20),
-          Icon(Icons.search, color: Colors.white, size: 20),
-          Icon(Icons.favorite, color: Colors.white, size: 20),
-          Icon(Icons.person, color: Colors.white, size: 20),
-        ],
-        onTap: (index) {
-          if (index == 0) Get.off(() => const Homescreen());
-          if (index == 1) Get.off(() => const BrowseScreen());
-          if (index == 2) return; // already here
-          if (index == 3) Get.off(() => const ProfileScreen());
-        },
       ),
     );
   }

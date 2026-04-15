@@ -7,7 +7,7 @@ import 'package:myproject/controllers/favoritecontroller.dart';
 import 'package:myproject/views/browse.dart';
 import 'package:myproject/views/favorites.dart';
 import 'package:myproject/views/profile.dart';
-import 'details.dart';
+import 'home_body.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -28,183 +28,25 @@ class _HomescreenState extends State<Homescreen> {
         backgroundColor: primaryColor,
       ),
 
-      body: Stack(
-        children: [
-          /// 🌸 Background WITH overlay (FIXED)
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/backgrao.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              color: Colors.black.withOpacity(0.5), // overlay ONLY here
-            ),
-          ),
+      body: const HomeBody(),
 
-          /// 🌟 Main Content
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                  child: Text(
-                    "WHAT WE OFFER 💖",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-
-                /// 🧶 Products Grid
-                Expanded(
-                  child: Obx(() {
-                    if (controller.isLoading.value) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-
-                    if (controller.items.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          "No products found",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      );
-                    }
-
-                    return GridView.builder(
-                      itemCount: controller.items.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                      ),
-                      itemBuilder: (context, index) {
-                        final item = controller.items[index];
-
-                        final imageUrl =
-                            "http://localhost/my_project/${item["image"]}";
-                        print("IMAGE URL: $imageUrl");
-
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(() => DetailPage(
-                                  name: item["name"] ?? "No name",
-                                  price: item["price"] ?? "0",
-                                  description:
-                                      item["description"] ?? "No description",
-                                  image: item["image"] ?? "",
-                                ));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Stack(
-                              children: [
-                                Column(
-                                  children: [
-                                    Expanded(
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            const BorderRadius.vertical(
-                                          top: Radius.circular(15),
-                                        ),
-                                        child: Image.network(
-                                          imageUrl,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return const Center(
-                                              child: Icon(
-                                                Icons.image_not_supported,
-                                                size: 50,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        item["name"] ?? "No name",
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                /// ❤️ Favorite Button
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: Obx(() {
-                                    final isFav =
-                                        favController.isFavorite(item);
-                                    return GestureDetector(
-                                      onTap: () =>
-                                          favController.toggleFavorite(item),
-                                      child: Icon(
-                                        isFav
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: Colors.red,
-                                        size: 28,
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-      /// 🔻 Bottom Navigation
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: primaryColor,
         buttonBackgroundColor: secondaryColor,
+        height: 50,
+        index: 0,
         items: const [
-          Icon(Icons.home, color: Colors.white),
-          Icon(Icons.search, color: Colors.white),
-          Icon(Icons.favorite, color: Colors.white),
-          Icon(Icons.person, color: Colors.white),
+          Icon(Icons.home, color: Colors.white, size: 20),
+          Icon(Icons.search, color: Colors.white, size: 20),
+          Icon(Icons.favorite, color: Colors.white, size: 20),
+          Icon(Icons.person, color: Colors.white, size: 20),
         ],
         onTap: (index) {
-          if (index == 0) return;
-
-          if (index == 1) {
-            Get.off(() => const BrowseScreen());
-          }
-
-          if (index == 2) {
-            Get.off(() => const FavoritesScreen());
-          }
-
-          if (index == 3) {
-            Get.off(() => const ProfileScreen());
-          }
+          if (index == 0) return; // already here
+          if (index == 1) Get.off(() => const BrowseScreen());
+          if (index == 2) Get.off(() => const FavoritesScreen());
+          if (index == 3) Get.off(() => const ProfileScreen());
         },
       ),
     );
